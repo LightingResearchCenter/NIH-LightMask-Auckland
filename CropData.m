@@ -17,6 +17,11 @@ projectDir = '\\ROOT\projects\NIH-Light-Mask\Auckland';
 dataDir = fullfile(projectDir,'converted_data');
 saveDir = fullfile(projectDir,'cropped_data');
 
+lsSave = dir(fullfile(saveDir,'*.mat'));
+if ~isempty(lsSave)
+    dataDir = saveDir;
+end
+
 saveName  = [timestamp,'.mat'];
 savePath  = fullfile(saveDir,saveName);
 
@@ -30,6 +35,17 @@ DB.objArray = objArray;
 % Crop data
 for iObj = 1:numel(objArray)
     thisObj = objArray(iObj);
+    
+    % Check if data was already cropped
+    if ~all(thisObj.Observation)
+        menuTxt = sprintf('Subject: %s, Session: %s \nappears to be cropped.\nWould you like to skip?',thisObj.ID,thisObj.Session.Name);
+        opts = {'Yes, (Skip)','No, (Crop)'};
+        choice = menu(menuTxt,opts);
+        if choice == 1
+            DB.objArray = objArray;
+            continue
+        end
+    end
     
     % Crop the data
     thisObj = crop(thisObj);
