@@ -33,7 +33,8 @@ DB = matfile(savePath,'Writable',true);
 DB.objArray = objArray;
 
 % Crop data
-for iObj = 1:numel(objArray)
+nObj = numel(objArray);
+for iObj = 1:nObj
     thisObj = objArray(iObj);
     
     % Check if data was already cropped
@@ -54,6 +55,16 @@ for iObj = 1:numel(objArray)
     
     % Save data
     DB.objArray = objArray;
+    
+    if iObj ~= nObj
+        menuTxt = sprintf('Cropping saved.\nWould you like to continue');
+        opts = {'Yes, continue','No, exit'};
+        choice = menu(menuTxt,opts);
+        if choice == 2
+            DB.objArray = objArray;
+            return
+        end
+    end
 end
 
 end
