@@ -43,7 +43,6 @@ for iObj = 1:nObj
         opts = {'Yes, (Skip)','No, (Crop)'};
         choice = menu(menuTxt,opts);
         if choice == 1
-            DB.objArray = objArray;
             continue
         end
     end
@@ -61,7 +60,6 @@ for iObj = 1:nObj
         opts = {'Yes, continue','No, exit'};
         choice = menu(menuTxt,opts);
         if choice == 2
-            DB.objArray = objArray;
             return
         end
     end
