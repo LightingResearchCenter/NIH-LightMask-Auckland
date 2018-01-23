@@ -1,4 +1,4 @@
-function data = loadData(varargin)
+function [objArray,varargout] = loadData(varargin)
 %LOADDATA Summary of this function goes here
 %   Detailed explanation goes here
 
@@ -10,7 +10,7 @@ addpath(d12packDir);
 if nargin >= 1
     projectDir = varargin{1};
 else
-    projectDir = '\\ROOT\projects\NIH-Light-Mask\Auckland';
+    projectDir = '\\ROOT\projects\NIH-Light-Mask\Auckland\cropped_data';
 end
 
 ls = dir([projectDir,filesep,'*.mat']);
@@ -20,7 +20,11 @@ dataPath = fullfile(projectDir,dataName);
 
 d = load(dataPath);
 
-data = d.objArray;
+objArray = d.objArray;
+
+if nargout == 2
+    varargout{1} = dataPath;
+end
 
 end
 
